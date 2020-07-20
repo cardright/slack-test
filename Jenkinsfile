@@ -16,7 +16,7 @@ pipeline {
     post {
         failure { 
         when {
-         branch 'master|cicd/*   
+         branch 'master|slack-test/*   
         }    
             slackSend channel: '#cicd',
             color: '#FF0000',
