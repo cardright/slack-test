@@ -12,13 +12,13 @@ pipeline {
                 sh 'yarn test:electron'
             }
         }
-    }           
+    }          
     post {
-        failure { 
-        when     
+        failure {
             slackSend channel: '#cicd',
             color: '#FF0000',
-            message: "*${currentBuild.currentResult}:*  Jenkins Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.  More info at: ${env.BUILD_URL}" 
+            message: "*${currentBuild.currentResult}:*  Jenkins Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.  More info at: ${env.BUILD_URL}"
         }
     }
 }
+
