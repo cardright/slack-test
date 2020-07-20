@@ -35,7 +35,7 @@ def notifyBuild(String buildStatus = 'FAILED') {
   buildStatus =  buildStatus ?: 'FAILED'
 
   // Override default values based on build status
-  if (env.Branch_Name = 'master|cicd*') {
+  if (env.Branch_Name = 'master') {
   } 
   // Send notifications
   slackSend '#cicd', 
