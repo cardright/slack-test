@@ -15,9 +15,7 @@ pipeline {
     }           
     post {
         failure { 
-        when {
-         branch 'master|slack-test/*'   
-        }    
+        when     
             slackSend channel: '#cicd',
             color: '#FF0000',
             message: "*${currentBuild.currentResult}:*  Jenkins Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.  More info at: ${env.BUILD_URL}" 
