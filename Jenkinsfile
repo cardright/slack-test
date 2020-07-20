@@ -1,18 +1,24 @@
-pipeline {
-    agent any
-    stages {
-        stage('build') {
-            steps {
-                sh 'yarn install'
-            }
+node {
+    try {
+        notifyBuild('STARTED')
+
+        stage('Prepare code') {
+            echo 'do checkout stuff'
         }
-        stage('test') {
-            steps {
-                sh 'yarn test:app'
-                sh 'yarn test:electron'
-            }
+
+        stage('Testing') {
+            echo 'Testing'
+            echo 'Testing - publish coverage results'
         }
-    }    
+
+        stage('Staging') {
+            echo 'Deploy Stage'
+        }
+
+        stage('Deploy') {
+            echo 'Deploy - Backend'
+            echo 'Deploy - Frontend'
+        }
 
   } catch (e) {
     // If there was an exception thrown, the build failed
