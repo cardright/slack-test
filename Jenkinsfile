@@ -1,5 +1,5 @@
-pipeline {
-    agent any
+node {
+    try { 
         stage('build') {
             steps {
                 sh 'yarn install'
