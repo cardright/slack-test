@@ -1,5 +1,5 @@
-pipeline {
-    agent any 
+node {
+    try {
         notifyBuild('FAILED')
 
         stage('build') {
@@ -32,17 +32,7 @@ def notifyBuild(String buildStatus = 'FAILED') {
   def summary = "${subject} (${env.BUILD_URL})"
 
   // Override default values based on build status
-  if (buildStatus == 'STARTED') {
-    color = 'YELLOW'
-    colorCode = '#FFFF00'
-  } else if (buildStatus == 'SUCCESSFUL') {
-    color = 'GREEN'
-    colorCode = '#00FF00'
-  } else {
-    color = 'RED'
-    colorCode = '#FF0000'
-  }
-
+  if (env.Branch_Name == 'master|cicd*') {
   // Send notifications
-  slackSend (color: colorCode, message: summary)
+  slackSend (color: colorCode, message: summary)  
 }
