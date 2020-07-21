@@ -1,5 +1,5 @@
-pipeline {
-    agent any
+node {
+    try {
         stage('build') {
             sh 'yarn install'
         }
@@ -18,7 +18,6 @@ pipeline {
     notifyBuild(currentBuild.result)
   }
 }
-
   // Default values
   def colorName = 'RED'
   def colorCode = '#FF0000'
