@@ -6,19 +6,30 @@ pipeline {
                 sh 'yarn install'
             }
         }
-        stage('test') {
+        stage('test Not Master') {
+            when{
+                not { branch 'master'}
+            }
             steps {
                 sh 'yarn test:app'
                 sh 'yarn test:electron'
             }
         }
-        stage('Notify') {
-            when {
-                branch 'master'  
+        stage('test Master') {
+            when{
+                anyOf { branch 'master'}
             }
             steps {
-              slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                sh 'yarn test:app'
+                sh 'yarn test:electron'                
             }
+        }
+    }          
+    post {
+        failure {
+            slackSend channel: '#cicd',
+            color: '#FF0000',
+            message: "*${currentBuild.currentResult}:*  Jenkins Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.  More info at: ${env.BUILD_URL}"
         }
     }
 }
