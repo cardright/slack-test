@@ -2,13 +2,13 @@ node {
     try {
         notifyBuild('STARTED')
 
-        stage('Prepare code') {
-            echo 'do checkout stuff'
+        stage('build') {
+            sh 'yarn install'
         }
 
-        stage('Testing') {
-            echo 'Testing'
-            echo 'Testing - publish coverage results'
+        stage('Test') {
+                sh 'yarn test:app'
+                sh 'yarn test:electron'
         }
 
         stage('Staging') {
