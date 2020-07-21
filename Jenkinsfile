@@ -1,14 +1,23 @@
 node {
-    try { 
-        stage('build') {
-            steps {
-                sh 'yarn install'
-        }
-        stage('test') {
-            steps {
-                sh 'yarn test:app'
-                sh 'yarn test:electron'
+    try {
         notifyBuild('STARTED')
+
+        stage('Prepare code') {
+            echo 'do checkout stuff'
+        }
+
+        stage('Testing') {
+            echo 'Testing'
+            echo 'Testing - publish coverage results'
+        }
+
+        stage('Staging') {
+            echo 'Deploy Stage'
+        }
+
+        stage('Deploy') {
+            echo 'Deploy - Backend'
+            echo 'Deploy - Frontend'
         }
 
   } catch (e) {
