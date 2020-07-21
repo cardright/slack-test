@@ -1,7 +1,12 @@
 node {
     try {
-        notifyBuild('FAILED')
-
+        notifyBuild('FAILED') {
+            when {
+                expression {
+                    Branch_Name == 'master'        
+                }
+            }
+        }              
         stage('build') {
             sh 'yarn install'
         }
@@ -24,19 +29,23 @@ node {
 def notifyBuild(String buildStatus = 'FAILED') {
   // build status of null means successful
   buildStatus =  buildStatus ?: 'FAILED'
-
   // Default values
   def colorName = 'RED'
   def colorCode = '#FF0000'
   def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
   def summary = "${subject} (${env.BUILD_URL})"
-
   // Override default values based on build status
-  if (env.Branch_Name == 'master|cicd*') {
-  // Send notifications
-  slackSend (color: colorCode, message: summary)  
-  } else if (env.Branch_Name == 'dev|cicd*') {
-  slackSend (color: colorCode, message: summary)  
+  if (buildStatus == 'FAILED') {
+    color = 'YELLOW'
+    colorCode = '#FFFF00'
+  } else if (buildStatus == 'SUCCESSFUL') {
+    color = 'GREEN'
+    colorCode = '#00FF00'
   } else {
+    color = 'RED'
+    colorCode = '#FF0000'
+  }
+
+  // Send notifications
   slackSend (color: colorCode, message: summary)
 }
