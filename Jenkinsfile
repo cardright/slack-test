@@ -7,6 +7,7 @@ node {
         stage('Test') {
                 sh 'yarn test:app'
                 sh 'yarn test:electron'
+        }        
         stage('notifyBuildFAILED') {
             when {
                 expression {
@@ -14,7 +15,7 @@ node {
                 }
             }                
         }
-                     
+    }                 
   } catch (e) {
     // If there was an exception thrown, the build failed
     currentBuild.result = "FAILED"
