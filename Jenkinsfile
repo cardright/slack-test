@@ -1,12 +1,5 @@
 node {
-    try {
-        stage('notifyBuildFAILED') {
-            when {
-                expression {
-                    Branch_Name == 'master'        
-                }
-            }
-        }              
+    try {            
         stage('build') {
             sh 'yarn install'
         }
@@ -14,8 +7,14 @@ node {
         stage('Test') {
                 sh 'yarn test:app'
                 sh 'yarn test:electron'
+        stage('notifyBuildFAILED') {
+            when {
+                expression {
+                    Branch_Name == 'master'        
+                }
+            }                
         }
-
+                     
   } catch (e) {
     // If there was an exception thrown, the build failed
     currentBuild.result = "FAILED"
