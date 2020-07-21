@@ -23,7 +23,7 @@ node {
     currentBuild.result = "FAILED"
     throw e
   } finally {
-    // Success or failure, always send notifications
+    // Failure, always send notifications
     notifyBuild(currentBuild.result)
   }
 }
