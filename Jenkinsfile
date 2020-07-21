@@ -1,7 +1,5 @@
-node {
-    try {
-        notifyBuild('STARTED')
-
+pipeline {
+    agent any
         stage('build') {
             sh 'yarn install'
         }
@@ -9,15 +7,6 @@ node {
         stage('Test') {
                 sh 'yarn test:app'
                 sh 'yarn test:electron'
-        }
-
-        stage('Staging') {
-            echo 'Deploy Stage'
-        }
-
-        stage('Deploy') {
-            echo 'Deploy - Backend'
-            echo 'Deploy - Frontend'
         }
 
   } catch (e) {
@@ -29,10 +18,6 @@ node {
     notifyBuild(currentBuild.result)
   }
 }
-
-def notifyBuild(String buildStatus = 'STARTED') {
-  // build status of null means successful
-  buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
   // Default values
   def colorName = 'RED'
