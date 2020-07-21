@@ -12,7 +12,10 @@ node {
                 expression {
                     Branch_Name == 'master'        
                 }
-            }                
+            } 
+            steps {
+                slackSend (color: colorCode, message: summary)
+            }               
         }
                     
   } catch (e) {
@@ -34,7 +37,4 @@ def notifyBuild(String buildStatus = 'FAILED') {
   def colorCode = '#FF0000'
   def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
   def summary = "${subject} (${env.BUILD_URL})"
-
-  // Send notifications
-  slackSend (color: colorCode, message: summary)
 }
