@@ -1,5 +1,7 @@
 node {
     try {
+        notifyBuild('STARTED')
+
         stage('build') {
             sh 'yarn install'
         }
@@ -18,6 +20,11 @@ node {
     notifyBuild(currentBuild.result)
   }
 }
+
+def notifyBuild(String buildStatus = 'STARTED') {
+  // build status of null means successful
+  buildStatus =  buildStatus ?: 'SUCCESSFUL'
+
   // Default values
   def colorName = 'RED'
   def colorCode = '#FF0000'
