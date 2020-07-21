@@ -10,7 +10,7 @@ node {
         stage('notifyBuildFAILED') {
             when {
                 expression {
-                    branch "master" ; branch 'staging'; branch 'my3000'         
+                    branch 'master'     
                 }
             } 
             steps {
