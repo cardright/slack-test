@@ -14,6 +14,7 @@ node {
             } 
             steps {
                 slackSend (color: colorCode, message: summary)
+            }
         }               
     }
                     
@@ -25,15 +26,4 @@ node {
     // Success or failure, always send notifications
     notifyBuild(currentBuild.result)
   }
-}
-
-def notifyBuild(String buildStatus = 'FAILED') {
-  // build status of null means successful
-  buildStatus =  buildStatus ?: 'FAILED'
-
-  // Default values
-  def colorName = 'RED'
-  def colorCode = '#FF0000'
-  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-  def summary = "${subject} (${env.BUILD_URL})"
 }
