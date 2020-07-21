@@ -10,7 +10,7 @@ node {
         stage('notifyBuildFAILED') {
             when {
                 expression {
-                    Branch_Name == 'dev'        
+                    Branch_Name == 'staging'        
                 }
             }                
         }
