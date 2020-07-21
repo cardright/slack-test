@@ -14,8 +14,8 @@ node {
             } 
             steps {
                 slackSend (color: colorCode, message: summary)
-            }               
-        }
+        }               
+    }
                     
   } catch (e) {
     // If there was an exception thrown, the build failed
