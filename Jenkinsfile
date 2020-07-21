@@ -1,5 +1,5 @@
-node {
-    try {
+pipeline {
+    agent any 
         notifyBuild('FAILED')
 
         stage('build') {
