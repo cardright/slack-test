@@ -9,11 +9,12 @@ node {
         }        
         stage('notifyBuildFAILED') {
             when {
-                branch 'master' 
-            }
+                expression {
+                    Branch_Name == 'master'        
+                }
+            }                
         }
-    }
-                                              
+                    
   } catch (e) {
     // If there was an exception thrown, the build failed
     currentBuild.result = "FAILED"
