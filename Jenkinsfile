@@ -32,7 +32,11 @@ def notifyBuild(String buildStatus = 'FAILED') {
   def summary = "${subject} (${env.BUILD_URL})"
 
   // Override default values based on build status
-  when (env.Branch_Name == 'master|cicd*') {
+  if (env.Branch_Name == 'master|cicd*') {
   // Send notifications
+  slackSend (color: colorCode, message: summary)  
+  } else if (env.Branch_Name == 'dev|cicd*') {
+  slackSend (color: colorCode, message: summary)  
+  } else {
   slackSend (color: colorCode, message: summary)
 }
