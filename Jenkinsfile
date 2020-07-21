@@ -7,7 +7,7 @@ node {
                 sh 'yarn test:app'
                 sh 'yarn test:electron'
         }        
-        notifyBuild('FAILED') {
+        stage('notifyBuildFAILED') {
             when {
                 expression {
                     Branch_Name == 'master'        
