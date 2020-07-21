@@ -1,6 +1,6 @@
 node {
     try {
-        notifyBuild('FAILED') {
+        stage('notifyBuildFAILED') {
             when {
                 expression {
                     Branch_Name == 'master'        
