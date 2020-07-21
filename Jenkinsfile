@@ -1,40 +1,35 @@
-node {
-    try {            
+pipeline {
+    agent any
+    stages {
         stage('build') {
-            sh 'yarn install'
+            steps {
+                sh 'yarn install'
+            }
         }
-        stage('Test') {
+        stage('test Not Master') {
+            when{
+                not { branch 'master'}
+            }
+            steps {
                 sh 'yarn test:app'
                 sh 'yarn test:electron'
-        }        
-        notifyBuild('FAILED') {
-            when {
-                expression {
-                    Branch_Name == 'master-sb'        
-                }
-            }                
+            }
         }
-                    
-  } catch (e) {
-    // If there was an exception thrown, the build failed
-    currentBuild.result = "FAILED"
-    throw e
-  } finally {
-    // Success or failure, always send notifications
-    notifyBuild(currentBuild.result)
-  }
-}
-
-def notifyBuild(String buildStatus = 'FAILED') {
-  // build status of null means successful
-  buildStatus =  buildStatus ?: 'FAILED'
-
-  // Default values
-  def colorName = 'RED'
-  def colorCode = '#FF0000'
-  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-  def summary = "${subject} (${env.BUILD_URL})"
-
-  // Send notifications
-  slackSend (color: colorCode, message: summary)
+        stage('test Master') {
+            when{
+                anyOf { branch 'master'}
+            }
+            steps {
+                sh 'yarn test:app'
+                sh 'yarn test:electron'                
+            }
+        }
+    }          
+    post {
+        failure {
+            slackSend channel: '#cicd',
+            color: '#FF0000',
+            message: "*${currentBuild.currentResult}:*  Jenkins Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.  More info at: ${env.BUILD_URL}"
+        }
+    }
 }
