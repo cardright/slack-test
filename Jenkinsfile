@@ -3,7 +3,6 @@ node {
         stage('build') {
             sh 'yarn install'
         }
-
         stage('Test') {
                 sh 'yarn test:app'
                 sh 'yarn test:electron'
@@ -15,7 +14,7 @@ node {
                 }
             }                
         }
-    }                 
+                    
   } catch (e) {
     // If there was an exception thrown, the build failed
     currentBuild.result = "FAILED"
