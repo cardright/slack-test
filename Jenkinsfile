@@ -22,8 +22,13 @@ pipeline {
             steps {
                 sh 'yarn test:app'
                 sh 'yarn test:electron'  
-                slackSend channel: '#cicd',
-                          message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"             
+            }
+            post{
+                always{
+                    slackSend channel: '#slack-test-channel',
+                        color: COLOR_MAP[currentBuild.currentResult],
+                        message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${BUILD_USER}\n More info at: ${env.BUILD_URL}"
+                }
             }
         }
     }
