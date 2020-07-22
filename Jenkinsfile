@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                echo 'yarn install'
+                sh 'yarn install'
             }
         }        
         stage('test Not Master') {
@@ -21,13 +21,10 @@ pipeline {
             }
             steps {
                 sh 'yarn test:app'
-                sh 'yarn test:electron'                
+                sh 'yarn test:electron'  
+                slackSend channel: '#cicd',
+                          message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"             
             }
         }
-    }          
-    post {
-      failure {
-       slackSend (color: '#FF0000', message: "Failed")
-      }
     }
 }
