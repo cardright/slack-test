@@ -1,9 +1,14 @@
 pipeline {
     agent any
-    stages {   
+    stages {
+        stage('build') {
+            steps {
+                sh 'yarn install'
+            }
+        }        
         stage('test') {
             when{
-                not { branch 'feature/*'}
+                not { branch 'feature'}
             }
             steps {
                 sh 'yarn test:app'
@@ -12,7 +17,7 @@ pipeline {
         }
         stage('no test') {
             when{
-                anyOf {branch 'feature/*'}
+                anyOf {branch 'feature'}
             }
             steps {
                 sh 'yarn test:app'
@@ -22,9 +27,10 @@ pipeline {
     } 
     post {
         failure {
-            slackSend channel: 'cicd',
+            slackSend channel: 'p-iqies-offline-builds',
             color: '#FF0000',
             message: "*${currentBuild.currentResult}:*  Jenkins Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.  More info at: ${env.BUILD_URL}"
         }
     }
 }
+
