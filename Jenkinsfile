@@ -1,22 +1,18 @@
 pipeline {
     agent any
-        }        
-        stage('no test') {
+    stages {   
+        stage('test') {
             when{
-                anyOf { branch 'feature'}
+                not { branch 'feature/*'}
             }
             steps {
                 sh 'yarn test:app'
                 sh 'yarn test:electron'
             }
         }
-        stage('test') {
+        stage('no test') {
             when{
-                anyOf {
-                    branch 'master';
-                    branch 'staging';
-                    branch 'dev'
-                }
+                anyOf {branch 'feature/*'}
             }
             steps {
                 sh 'yarn test:app'
@@ -32,4 +28,3 @@ pipeline {
         }
     }
 }
-
