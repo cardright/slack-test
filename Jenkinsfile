@@ -1,28 +1,32 @@
 pipeline {
     agent any
-    stages {
-        stage('test Not Master') {
+        }        
+        stage('no test') {
             when{
-                not { branch 'master'}
+                anyOf { branch 'feature'}
             }
             steps {
                 sh 'yarn test:app'
                 sh 'yarn test:electron'
             }
         }
-        stage('test Master') {
+        stage('test') {
             when{
-                anyOf { branch 'master'}
+                anyOf {
+                    branch 'master';
+                    branch 'staging';
+                    branch 'dev'
+                }
             }
             steps {
                 sh 'yarn test:app'
                 sh 'yarn test:electron'                
             }
         }
-    }          
+    } 
     post {
         failure {
-            slackSend channel: '#cicd',
+            slackSend channel: 'cicd',
             color: '#FF0000',
             message: "*${currentBuild.currentResult}:*  Jenkins Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.  More info at: ${env.BUILD_URL}"
         }
