@@ -1,0 +1,50 @@
+{
+  "name": "electron-webpack-quick-start",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "dist": "yarn compile && electron-builder",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
+    "test:app": "jest ./src",
+    "test:electron": "yarn compile && env USE_COMPILED=1 jest ./test"
+  },
+  "electronWebpack": {
+    "renderer": {
+      "webpackConfig": "webpack.renderer.js"
+    }
+  },
+  "dependencies": {
+    "bootstrap": "^4.5.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "source-map-support": "^0.5.16",
+    "svg-url-loader": "^6.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@testing-library/jest-dom": "^5.11.0",
+    "@testing-library/react": "^10.4.5",
+    "@types/jest": "^26.0.4",
+    "@types/node": "12",
+    "@types/react": "^16.9.42",
+    "@types/react-dom": "^16.9.8",
+    "babel-jest": "^26.1.0",
+    "electron": "9.1.0",
+    "electron-builder": "^22.4.1",
+    "electron-webpack": "^2.8.2",
+    "electron-webpack-ts": "^4.0.1",
+    "jest": "^26.1.0",
+    "node-sass": "^4.14.1",
+    "resolve-url-loader": "^3.1.1",
+    "sass-loader": "^9.0.2",
+    "spectron": "^11.1.0",
+    "ts-jest": "^26.1.1",
+    "typescript": "^3.9.6",
+    "webpack": "~4.42.1"
+  }
+}
