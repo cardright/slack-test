@@ -1,25 +1,21 @@
 pipeline {
     agent {
-        docker { image 'node'}
+        docker { image 'node-14.60.0'}
     }
     stages { 
         stage('build') {
             steps {
-                sh 'yarn install'
+                sh 'yarn'
             }
         }        
         stage('test') {
             steps {
                 sh 'yarn test:app'
-                sh 'yarn test:electron'
+                sh 'yarn test:electron'                
             }
-        }
-    }
-    post {
-        failure {
-            script {
-                if (env.BRANCH_NAME == 'master') {
-                    slackSend channel: "cicd",
+            post {
+                failure {
+                    slackSend channel: 'cicd',
                     color: '#FF0000',
                     message: "*${currentBuild.currentResult}:*  Jenkins Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}.  More info at: ${env.BUILD_URL}"
                 }
