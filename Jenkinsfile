@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            label 'jnlp-slave-1'
+            label 'cj/jenkins-slave'
         }
     }
     stages { 
