@@ -1,6 +1,8 @@
 pipeline {
     agent {
-        docker { image 'node' }
+        docker {
+            label 'jnlp-slave-1'
+        }
     }
     stages { 
         stage('build') {
